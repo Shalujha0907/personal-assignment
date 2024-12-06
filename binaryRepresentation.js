@@ -1,12 +1,12 @@
-function binaryRepresentation(num) {
+function toBinary(num) {
   if (num === 0) {
     return "0";
   }
 
-  return binaryRepresentation(num >> 1) + (num & 1);
+  return toBinary(num >> 1) + (num & 1);
 }
 
-console.log("number in binary representation :", binaryRepresentation(0));
-console.log("number in binary representation :", binaryRepresentation(1));
-console.log("number in binary representation :", binaryRepresentation(2));
-console.log("number in binary representation :", binaryRepresentation(3));
+console.log("number in binary representation :", toBinary(0));
+console.log("number in binary representation :", toBinary(1));
+console.log("number in binary representation :", toBinary(2));
+console.log("number in binary representation :", toBinary(3));
