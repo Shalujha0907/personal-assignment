@@ -79,7 +79,7 @@ function testPuzzleDieMap(fnsName, helperFns, collection, expected, failed, init
   }
 }
 
-function testPuzzleDieMapFilter(fnsName, helperFns, collection, expected, failed) {
+function testPuzzleDieFilter(fnsName, helperFns, collection, expected, failed) {
   const actual = fnsName(helperFns, collection);
 
   if (!areEqual(actual, expected)) {
@@ -102,14 +102,14 @@ function testAll(failed) {
   testPuzzleDieMap(map, half, [1, 2, 3], [0, 1, 1], failed);
   testPuzzleDieMap(map, half, [4, 8, 10, 16], 1, [2, 4, 5, 8], failed);
 
-  testPuzzleDieMapFilter(filter, isOdd, [4, 8, 10, 16], [], failed);
-  testPuzzleDieMapFilter(filter, isOdd, [1, 8, 10, 16], [1], failed);
-  testPuzzleDieMapFilter(filter, isOdd, [1, 8, 10, 4, 7], [1, 7], failed);
-  testPuzzleDieMapFilter(filter, isLengthMoreThan5, ['abc', 'abcde', 'abcdef'],
+  testPuzzleDieFilter(filter, isOdd, [4, 8, 10, 16], [], failed);
+  testPuzzleDieFilter(filter, isOdd, [1, 8, 10, 16], [1], failed);
+  testPuzzleDieFilter(filter, isOdd, [1, 8, 10, 4, 7], [1, 7], failed);
+  testPuzzleDieFilter(filter, isLengthMoreThan5, ['abc', 'abcde', 'abcdef'],
     ['abcdef'], failed);
-  testPuzzleDieMapFilter(filter, isLengthMoreThan5, ['shalu', 'jha',
+  testPuzzleDieFilter(filter, isLengthMoreThan5, ['shalu', 'jha',
     'shalujha'], ['shalujha'], failed);
-  testPuzzleDieMapFilter(filter, isLengthMoreThan5, ['abc', 'abcde', ''],
+  testPuzzleDieFilter(filter, isLengthMoreThan5, ['abc', 'abcde', ''],
     [], failed);
 
   testPuzzleDieReduce(reduce, product, [1, 2, 3, 4], 1, 24, failed);
