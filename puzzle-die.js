@@ -26,6 +26,10 @@ function half(number) {
   return number >> 1;
 }
 
+function strIntoUppercase(element) {
+  return element.toUpperCase();
+}
+
 function map(mapper, collection) {
   const result = [];
 
@@ -100,7 +104,10 @@ function testAll(failed) {
   testPuzzleDieMap(map, Math.sqrt, [1, 2], [1, 1.4142135623730951], failed);
   testPuzzleDieMap(map, half, [0], [0], failed);
   testPuzzleDieMap(map, half, [1, 2, 3], [0, 1, 1], failed);
-  testPuzzleDieMap(map, half, [4, 8, 10, 16], 1, [2, 4, 5, 8], failed);
+  testPuzzleDieMap(map, half, [4, 8, 10, 16], [2, 4, 5, 8], failed);
+  testPuzzleDieMap(map, strIntoUppercase, ['a', 'b'], ['A', 'B'], failed);
+  testPuzzleDieMap(map, strIntoUppercase, ['map', 'mapper'], ['MAP', 'MAPPER'],
+    failed);
 
   testPuzzleDieFilter(filter, isOdd, [4, 8, 10, 16], [], failed);
   testPuzzleDieFilter(filter, isOdd, [1, 8, 10, 16], [1], failed);
