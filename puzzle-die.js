@@ -15,7 +15,7 @@ function product(element, init) {
 }
 
 function isOdd(number) {
-  return number >> 1 === 1;
+  return number & 1 === 1;
 }
 
 function isLengthMoreThan5(element) {
@@ -72,33 +72,51 @@ function areEqual(array1, array2) {
   return true;
 }
 
-function testPuzzleDie(fnsName, helperFns, collection, expected, failed, init) {
+function testPuzzleDieMap(fnsName, helperFns, collection, expected, failed, init) {
   const actual = fnsName(helperFns, collection, init);
   if (!areEqual(actual, expected)) {
     failed.push([fnsName, helperFns, collection, expected, actual]);
   }
 }
 
+function testPuzzleDieMapFilter(fnsName, helperFns, collection, expected, failed) {
+  const actual = fnsName(helperFns, collection);
+
+  if (!areEqual(actual, expected)) {
+    failed.push([fnsName, helperFns, collection, expected, actual]);
+  }
+}
 function testPuzzleDieReduce(fnsName, helperFns, collection, init, expected, failed) {
   const actual = fnsName(helperFns, collection, init);
-  if (actual !== actual) {
-    failed.push([fnsName, helperFns, collection, actual, actual]);
+
+  if (actual !== expected) {
+    failed.push([fnsName, helperFns, collection, actual, expected]);
   }
 }
 
 function testAll(failed) {
-  testPuzzleDie(map, Math.sqrt, [0], [0], failed);
-  testPuzzleDie(map, Math.sqrt, [1, 4, 9, 16], [1, 2, 3, 4], failed);
-  testPuzzleDie(map, Math.sqrt, [1, 2], [1, 1.4142135623730951], failed);
+  testPuzzleDieMap(map, Math.sqrt, [0], [0], failed);
+  testPuzzleDieMap(map, Math.sqrt, [1, 4, 9, 16], [1, 2, 3, 4], failed);
+  testPuzzleDieMap(map, Math.sqrt, [1, 2], [1, 1.4142135623730951], failed);
+  testPuzzleDieMap(map, half, [0], [0], failed);
+  testPuzzleDieMap(map, half, [1, 2, 3], [0, 1, 1], failed);
+  testPuzzleDieMap(map, half, [4, 8, 10, 16], 1, [2, 4, 5, 8], failed);
 
-  testPuzzleDie(map, half, [0], [0], failed);
-  testPuzzleDie(map, half, [1, 2, 3], [0, 1, 1], failed);
-  testPuzzleDie(map, half, [4, 8, 10, 16], [2, 4, 5, 8], failed);
-  testPuzzleDieReduce(reduce, product, [1, 2, 3, 4], 24, 1, failed);
-  testPuzzleDieReduce(reduce, counter, [1, 2, 3, 4], 2, 0, failed);
-  testPuzzleDieReduce(reduce, concat, ['sh', 'alu'], 'shalu', failed);
-  testPuzzleDieReduce(reduce, longestLength, ['a', 'ab', 'shalu'], 'shalu',
-    failed, 0);
+  testPuzzleDieMapFilter(filter, isOdd, [4, 8, 10, 16], [], failed);
+  testPuzzleDieMapFilter(filter, isOdd, [1, 8, 10, 16], [1], failed);
+  testPuzzleDieMapFilter(filter, isOdd, [1, 8, 10, 4, 7], [1, 7], failed);
+  testPuzzleDieMapFilter(filter, isLengthMoreThan5, ['abc', 'abcde', 'abcdef'],
+    ['abcdef'], failed);
+  testPuzzleDieMapFilter(filter, isLengthMoreThan5, ['shalu', 'jha',
+    'shalujha'], ['shalujha'], failed);
+  testPuzzleDieMapFilter(filter, isLengthMoreThan5, ['abc', 'abcde', ''],
+    [], failed);
+
+  testPuzzleDieReduce(reduce, product, [1, 2, 3, 4], 1, 24, failed);
+  testPuzzleDieReduce(reduce, counter, [1, 2, 3, 4], 0, 2, failed);
+  testPuzzleDieReduce(reduce, concat, ['sh', 'alu'], '', 'shalu', failed);
+  testPuzzleDieReduce(reduce, longestLength, ['a', 'ab', 'shalu'], 0, 'shalu',
+    failed);
 }
 
 function mainTest() {
