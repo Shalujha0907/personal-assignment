@@ -94,11 +94,11 @@ function testAll(failed) {
   testPuzzleDie(map, half, [0], [0], failed);
   testPuzzleDie(map, half, [1, 2, 3], [0, 1, 1], failed);
   testPuzzleDie(map, half, [4, 8, 10, 16], [2, 4, 5, 8], failed);
-  // testPuzzleDieReduce(reduce, product, [1, 2, 3, 4], 24, 1,  failed);
-  // testPuzzleDieReduce(reduce, counter, [1, 2, 3, 4], 2, 0, failed);
-  // testPuzzleDieReduce(reduce, concat, ['sh', 'alu'], 'shalu', failed);
-  // testPuzzleDieReduce(reduce, longestLength, ['a', 'ab', 'shalu'], 'shalu',
-  //  failed, 0);
+  testPuzzleDieReduce(reduce, product, [1, 2, 3, 4], 24, 1, failed);
+  testPuzzleDieReduce(reduce, counter, [1, 2, 3, 4], 2, 0, failed);
+  testPuzzleDieReduce(reduce, concat, ['sh', 'alu'], 'shalu', failed);
+  testPuzzleDieReduce(reduce, longestLength, ['a', 'ab', 'shalu'], 'shalu',
+    failed, 0);
 }
 
 function mainTest() {
