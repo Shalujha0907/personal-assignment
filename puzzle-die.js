@@ -62,6 +62,26 @@ function reduce(reducer, collection, initialValue) {
   return result;
 }
 
+const some = function (predicate, collection) {
+  for (const element of collection) {
+    if (predicate(element)) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+const every = function (predicate, collection) {
+  for (const element of collection) {
+    if (!predicate(element)) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
 function areEqual(array1, array2) {
   if (array1.length !== array2.length) {
     return false;
@@ -76,22 +96,44 @@ function areEqual(array1, array2) {
   return true;
 }
 
-function testPuzzleDieMap(fnsName, helperFns, collection, expected, failed, init) {
+function testPuzzleDieMap(fnsName, helperFns, collection, expected, failed,
+  init) {
   const actual = fnsName(helperFns, collection, init);
   if (!areEqual(actual, expected)) {
     failed.push([fnsName, helperFns, collection, expected, actual]);
   }
 }
 
-function testPuzzleDieFilter(fnsName, helperFns, collection, expected, failed) {
+function testPuzzleDieFilter(fnsName, helperFns, collection, expected,
+  failed) {
   const actual = fnsName(helperFns, collection);
 
   if (!areEqual(actual, expected)) {
     failed.push([fnsName, helperFns, collection, expected, actual]);
   }
 }
-function testPuzzleDieReduce(fnsName, helperFns, collection, init, expected, failed) {
+
+function testPuzzleDieReduce(fnsName, helperFns, collection, init, expected,
+  failed) {
   const actual = fnsName(helperFns, collection, init);
+
+  if (actual !== expected) {
+    failed.push([fnsName, helperFns, collection, actual, expected]);
+  }
+}
+
+function testPuzzleDieSome(fnsName, helperFns, collection, expected,
+  failed) {
+  const actual = fnsName(helperFns, collection);
+
+  if (actual !== expected) {
+    failed.push([fnsName, helperFns, collection, actual, expected]);
+  }
+}
+
+function testPuzzleDieEvery(fnsName, helperFns, collection, expected,
+  failed) {
+  const actual = fnsName(helperFns, collection);
 
   if (actual !== expected) {
     failed.push([fnsName, helperFns, collection, actual, expected]);
@@ -124,6 +166,26 @@ function testAll(failed) {
   testPuzzleDieReduce(reduce, concat, ['sh', 'alu'], '', 'shalu', failed);
   testPuzzleDieReduce(reduce, longestLength, ['a', 'ab', 'shalu'], 0, 'shalu',
     failed);
+
+  testPuzzleDieSome(some, function (element) { return element & 1 === 1; },
+    [1, 2], true, failed);
+  testPuzzleDieSome(some, function (element) { return element & 1 === 1; },
+    [2, 4, 8], false, failed);
+
+  testPuzzleDieSome(some, function (element) { return element > 100; },
+    [1, 2, 120], true);
+  testPuzzleDieSome(some, function (element) { return element > 100; },
+    [1, 2, 12], false);
+  
+  testPuzzleDieEvery(every, function (element) { return element > 0; },
+    [1, 2, 120], true, failed);
+  testPuzzleDieEvery(every, function (element) { return element > 0; },
+    [1, 2, -4], false, failed);
+  
+  testPuzzleDieEvery(every, function (element) {return element.length > 3; 
+     },['that', 'this'], true, failed);
+    testPuzzleDieEvery(every, function (element) { return element.length > 3; },
+    ['that', 'thi'], false, failed);
 }
 
 function mainTest() {
