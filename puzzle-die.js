@@ -140,7 +140,7 @@ function testPuzzleDieEvery(fnsName, helperFns, collection, expected,
   }
 }
 
-function testAll(failed) {
+function testAllMap(failed) {
   testPuzzleDieMap(map, Math.sqrt, [0], [0], failed);
   testPuzzleDieMap(map, Math.sqrt, [1, 4, 9, 16], [1, 2, 3, 4], failed);
   testPuzzleDieMap(map, Math.sqrt, [1, 2], [1, 1.4142135623730951], failed);
@@ -150,7 +150,9 @@ function testAll(failed) {
   testPuzzleDieMap(map, strIntoUppercase, ['a', 'b'], ['A', 'B'], failed);
   testPuzzleDieMap(map, strIntoUppercase, ['map', 'mapper'], ['MAP', 'MAPPER'],
     failed);
+}
 
+function testAllFilter(failed) {
   testPuzzleDieFilter(filter, isOdd, [4, 8, 10, 16], [], failed);
   testPuzzleDieFilter(filter, isOdd, [1, 8, 10, 16], [1], failed);
   testPuzzleDieFilter(filter, isOdd, [1, 8, 10, 4, 7], [1, 7], failed);
@@ -160,13 +162,17 @@ function testAll(failed) {
     'shalujha'], ['shalujha'], failed);
   testPuzzleDieFilter(filter, isLengthMoreThan5, ['abc', 'abcde', ''],
     [], failed);
+}
 
+function testAllReduce(failed) {
   testPuzzleDieReduce(reduce, product, [1, 2, 3, 4], 1, 24, failed);
   testPuzzleDieReduce(reduce, counter, [1, 2, 3, 4], 0, 2, failed);
   testPuzzleDieReduce(reduce, concat, ['sh', 'alu'], '', 'shalu', failed);
   testPuzzleDieReduce(reduce, longestLength, ['a', 'ab', 'shalu'], 0, 'shalu',
     failed);
+}
 
+function testAllSome(failed) {
   testPuzzleDieSome(some, function (element) { return element & 1 === 1; },
     [1, 2], true, failed);
   testPuzzleDieSome(some, function (element) { return element & 1 === 1; },
@@ -176,16 +182,26 @@ function testAll(failed) {
     [1, 2, 120], true);
   testPuzzleDieSome(some, function (element) { return element > 100; },
     [1, 2, 12], false);
-  
+}
+
+function testAllEvery(failed) {
   testPuzzleDieEvery(every, function (element) { return element > 0; },
     [1, 2, 120], true, failed);
   testPuzzleDieEvery(every, function (element) { return element > 0; },
     [1, 2, -4], false, failed);
-  
-  testPuzzleDieEvery(every, function (element) {return element.length > 3; 
-     },['that', 'this'], true, failed);
-    testPuzzleDieEvery(every, function (element) { return element.length > 3; },
+
+  testPuzzleDieEvery(every, function (element) { return element.length > 3; },
+    ['that', 'this'], true, failed);
+  testPuzzleDieEvery(every, function (element) { return element.length > 3; },
     ['that', 'thi'], false, failed);
+}
+
+function testAll(failed) {
+  testAllMap(failed);
+  testAllFilter(failed);
+  testAllReduce(failed);
+  testAllSome(failed);
+  testAllEvery(failed);
 }
 
 function mainTest() {
