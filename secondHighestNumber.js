@@ -11,11 +11,18 @@ const getWinnerRunnerUp = function ([highest, secondHighest], number) {
   return [highest, secondHighest];
 };
 
-function secondHighest(collection, [highest, secondHighest]) {
-  let result = [];
-  result = collection.reduce(getWinnerRunnerUp, [highest, secondHighest],);
+function validCollection(collection) {
+  return collection.length > 1;
+}
 
-  return result[1];
+function secondHighest(collection, [highest, secondHighest]) {
+  if (validCollection(collection)) {
+    const result = collection.reduce(getWinnerRunnerUp, [highest, secondHighest]);
+
+    return result[1];
+  }
+
+  return collection[0];
 }
 
 function getMark(expected, actual) {
@@ -37,7 +44,8 @@ function testAll() {
   testSecondHighest([8, 2, 5], [-Infinity, -Infinity], 5);
   testSecondHighest([-1, -2, -3], [-Infinity, -Infinity], -2);
   testSecondHighest([0, -1, -3], [-Infinity, -Infinity], -1);
-  testSecondHighest([-1, -3], [-Infinity, -Infinity], -3);
+  testSecondHighest([8, 8, 8], [-Infinity, -Infinity], -Infinity);
+  testSecondHighest([-1], [-Infinity, -Infinity], -1);
 }
 
 testAll();
